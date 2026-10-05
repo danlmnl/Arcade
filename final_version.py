@@ -354,7 +354,7 @@ while True:
 
     font_small = pygame.font.Font(None, 22)
     screen.blit(font_small.render("SPEED", True, "WHITE"), (325, 733))
-    screen.blit(font_small.render("RAPID", True, "WHITE"), (325, 763))
+    screen.blit(font_small.render("FIRE", True, "WHITE"), (340, 763))
 
 
     if game_res:
