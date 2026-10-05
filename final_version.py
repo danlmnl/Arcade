@@ -67,7 +67,6 @@ bonus_speed_bullet_image = pygame.image.load('speed_bullet.png')
 boom_image = pygame.image.load('boom.png')
 ship_image = pygame.image.load('ship.png')
 
-boom_image = pygame.transform.scale(boom_image, (20, 20))
 bonus_speed_image = pygame.transform.scale(bonus_speed_image, (50, 50))
 live_image = pygame.transform.scale(live_image, (50, 50))
 bonus_speed_bullet_image = pygame.transform.scale(bonus_speed_bullet_image, (50, 50))
@@ -116,12 +115,9 @@ def generate_bonus_speed_bullet():
     new_bonus = pygame.Rect(x, -50, 50, 50)
     bonuses.append([new_bonus, "speed-bullet"])
 
-def draw_boom(b):
-    cur = pygame.time.get_ticks()
-    for b in booms:
-        el = cur - b[1]
-        size = int(20+60*(el/1000))
-        screen.blit(boom_image, boom_image.get_rect(center=b[0]))
+def draw_boom(pos):
+    booms.append([pygame.Vector2(pos.center), 0])
+
 
 def load_score():
     try:
@@ -317,6 +313,13 @@ while True:
 
         for bullet in bullets:
             pygame.draw.circle(screen, bullet_color, (bullet.x, bullet.y), bullet_r)
+
+        for b in booms:
+            boom_size = 10 + b[1]*5
+            img = pygame.transform.scale(boom_image, (boom_size, boom_size))
+            screen.blit(img, img.get_rect(center=b[0]))
+            b[1]+=1
+        booms = [b for b in booms if b[1] < 15]
 
         if now >= cooldown_live or (now //100)%2 !=0:
             screen.blit(ship_image, ship_image.get_rect(center=ship_pos))
